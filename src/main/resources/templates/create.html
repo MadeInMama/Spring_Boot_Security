@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+</head>
+<body>
+<div th:replace="template :: header"></div>
+
+<form method="post" th:action="@{/auth/create}">
+    <input th:field="*{new.username}">
+    <input th:field="*{new.password}">
+    <input type="submit" value="Submit">
+</form>
+
+<div th:replace="template :: footer"></div>
+</body>
+</html>

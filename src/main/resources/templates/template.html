@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header">
+    <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+</header>
+<footer th:fragment="footer">
+    © 2022 The Good Thymes Virtual Grocery
+</footer>
+</body>
+</html>
