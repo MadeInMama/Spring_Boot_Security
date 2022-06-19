@@ -23,7 +23,7 @@ public class AuthController {
         return "create";
     }
 
-    @PostMapping(value = "create")
+    @PostMapping("create")
     public String create(@ModelAttribute("new") User user) {
         userService.save(user);
         return "redirect:/login";

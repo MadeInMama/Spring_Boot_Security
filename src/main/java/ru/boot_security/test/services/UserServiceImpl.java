@@ -3,8 +3,8 @@ package ru.boot_security.test.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.boot_security.test.configs.PasswordEncoderWithDecoder;
 import ru.boot_security.test.entities.Role;
 import ru.boot_security.test.entities.Roles;
 import ru.boot_security.test.entities.User;
@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoderWithDecoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -40,25 +40,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-        Role role;
+        if (user.getId() == null) {
+            Role role;
 
-        if (user.getUsername().contains("admin")) {
-            role = roleRepository.findByRole(Roles.ADMIN.name());
+            if (user.getUsername().contains("admin")) {
+                role = roleRepository.findByRole(Roles.ADMIN.name());
 
-            if (role == null) {
-                role = new Role(Roles.ADMIN);
-                roleRepository.save(role);
+                if (role == null) {
+                    role = new Role(Roles.ADMIN);
+                    roleRepository.save(role);
+                }
+            } else {
+                role = roleRepository.findByRole(Roles.USER.name());
+
+                if (role == null) {
+                    role = new Role(Roles.USER);
+                    roleRepository.save(role);
+                }
             }
+
+            user.setRoles(Collections.singleton(role));
         } else {
-            role = roleRepository.findByRole(Roles.USER.name());
-
-            if (role == null) {
-                role = new Role(Roles.USER);
-                roleRepository.save(role);
-            }
+            //Set<Role> roles = roleRepository.get
         }
 
-        user.setRoles(Collections.singleton(role));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);

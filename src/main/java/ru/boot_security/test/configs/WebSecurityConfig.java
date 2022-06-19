@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.boot_security.test.entities.Roles;
 import ru.boot_security.test.services.UserService;
@@ -20,32 +20,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
 
     @Bean
-    public static BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public static PasswordEncoderWithDecoder passwordEncoderWithDecoder() {
+        return new PasswordEncoderWithDecoder();
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
                 .antMatchers("/auth/**").not().authenticated()
-                .antMatchers("/").authenticated()
+                .antMatchers("/home/**").authenticated()
                 .antMatchers("/admin/**").hasAuthority(Roles.ADMIN.name())
+                .antMatchers("/users/**").hasAnyAuthority(Roles.ADMIN.name())
                 .antMatchers("/user/**").hasAnyAuthority(Roles.ADMIN.name(), Roles.USER.name())
                 .anyRequest().authenticated()
 
                 .and()
                 .formLogin()
                 .loginPage("/auth/login")
-                //.defaultSuccessUrl("/", true)
-                .successHandler(new LoginSuccessHandler())
+                .successHandler(getLoginSuccessHandler())
 
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
     }
 
+    @Bean
+    public AuthenticationSuccessHandler getLoginSuccessHandler() {
+        return new LoginSuccessHandler();
+    }
+
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoderWithDecoder());
     }
 }

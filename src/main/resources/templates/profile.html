@@ -8,13 +8,13 @@
 <body>
 <div th:replace="template :: header"></div>
 
-<form method="post" th:action="@{/auth/create}">
-    <input th:field="*{new.username}">
-    <input th:field="*{new.password}">
+<form method="post" th:action="@{/home/save}">
+    <input readonly th:name="id" th:value="*{user.id}">
+    <input th:name="username" th:value="*{user.username}">
+    <input th:name="password" th:value="*{user.password}">
     <input type="submit" value="Submit">
+    <a th:href="@{/home/delete/{id}(id=${user.id})}">Delete</a>
 </form>
-
-<a href="/auth/login">Login</a>
 
 <div th:replace="template :: footer"></div>
 </body>

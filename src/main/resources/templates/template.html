@@ -3,8 +3,21 @@
       xmlns:th="http://www.thymeleaf.org">
 <body>
 <header th:fragment="header">
-    <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+    <h1 th:text="${title}"></h1>
+
+    <ul>
+        <li sec:authorize="isAuthenticated()">
+            <a href="/home/">Profile</a>
+        </li>
+        <li sec:authorize="hasAuthority('ADMIN')">
+            <a href="/users/">Users</a>
+        </li>
+        <li sec:authorize="isAuthenticated()">
+            <a href="/logout">Logout</a>
+        </li>
+    </ul>
 </header>
+
 <footer th:fragment="footer">
     © 2022 The Good Thymes Virtual Grocery
 </footer>
