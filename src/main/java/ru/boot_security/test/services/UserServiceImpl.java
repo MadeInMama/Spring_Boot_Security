@@ -40,6 +40,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
+        User res;
+
         if (user.getId() == null) {
             Role role;
 
@@ -60,13 +62,18 @@ public class UserServiceImpl implements UserService {
             }
 
             user.setRoles(Collections.singleton(role));
+
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+            res = user;
         } else {
-            //Set<Role> roles = roleRepository.get
+            res = findById(user.getId());
+            
+            res.setUsername(user.getUsername());
+            res.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        userRepository.save(user);
+        userRepository.save(res);
     }
 
     @Override
