@@ -1,20 +1,38 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${title}"></title>
-</head>
+
+<head th:replace="template :: head"></head>
+
 <body>
 <div th:replace="template :: header"></div>
 
-<form method="post" th:action="@{/auth/create}">
-    <input th:field="*{new.username}">
-    <input th:field="*{new.password}">
-    <input type="submit" value="Submit">
-</form>
+<form class="mb-4 mt-5" method="post" th:action="@{/auth/create}">
+    <h1 th:text="${title}"></h1>
 
-<a href="/auth/login">Login</a>
+    <input class="form-control" placeholder="Enter username..." th:field="*{new.username}"/>
+    <input class="form-control" placeholder="Enter password..." th:field="*{new.password}" type="password"/>
+
+    <div class="form-group d-flex align-items-center gap-3">
+        <th:block th:each="role : ${roles}">
+            <div class="d-flex align-items-center gap-1">
+                <input class="form-check-input" th:attr="id=${role.role}" th:field="*{new.roles}" th:value="${role.id}"
+                       type="checkbox">
+                <label th:for="${role.role}" th:text="${role.role}"></label>
+            </div>
+        </th:block>
+    </div>
+
+    <input
+            class="mt-1 btn btn-primary btn-block"
+            type="submit"
+            value="Submit"
+    />
+
+    <div class="text-center">
+        <a href="/auth/login">Login</a>
+    </div>
+</form>
 
 <div th:replace="template :: footer"></div>
 </body>

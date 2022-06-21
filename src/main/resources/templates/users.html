@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${title}"></title>
-</head>
+
+<head th:replace="template :: head"></head>
+
 <body>
 <div th:replace="template :: header"></div>
 
@@ -13,6 +12,7 @@
         <input readonly th:name="id" th:value="${user.id}">
         <input th:name="username" th:value="*{user.username}">
         <input th:name="password" th:value="*{user.password}">
+
         <input type="submit" value="Submit">
         <a th:href="@{/users/delete/{id}(id=${user.id})}">Delete</a>
     </form>

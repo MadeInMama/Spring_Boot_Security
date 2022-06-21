@@ -10,6 +10,8 @@ import ru.boot_security.test.entities.User;
 import ru.boot_security.test.services.UserService;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/home/")
@@ -24,8 +26,13 @@ public class HomeController {
         User user = userService.findById(((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId());
         user.setPassword(passwordEncoder.decode(user.getPassword()));
 
+        List<User> users = userService.findAll().stream().filter(u -> !u.getId().equals(user.getId())).collect(Collectors.toList());
+        users.forEach(r -> r.setPassword(passwordEncoder.decode(r.getPassword())));
+
         model.addAttribute("title", "Profile");
         model.addAttribute("user", user);
+        model.addAttribute("users", users);
+
         return "profile";
     }
 
@@ -40,6 +47,6 @@ public class HomeController {
     public String delete(@PathVariable long id) {
         userService.deleteById(id);
 
-        return "redirect:/logout";
+        return "redirect:/home/";
     }
 }

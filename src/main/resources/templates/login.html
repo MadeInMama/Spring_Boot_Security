@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${title}"></title>
-</head>
+
+<head th:replace="template :: head"></head>
+
 <body>
 <div th:replace="template :: header"></div>
 
-<form method="post" th:action="@{/auth/login}">
-    <input name="username" th:field="*{new.username}">
-    <input name="password" th:field="*{new.password}">
-    <input type="submit" value="Submit">
-</form>
+<form class="mb-4 mt-5" method="post" th:action="@{/auth/login}">
+    <h1 th:text="${title}"></h1>
 
-<a href="/auth/create">Create</a>
+    <input class="form-control" name="username" placeholder="Enter username..." th:field="*{new.username}">
+    <input class="form-control" name="password" placeholder="Enter password..." th:field="*{new.password}"
+           type="password">
+
+    <input
+            class="mt-1 btn btn-primary btn-block
++"
+            type="submit"
+            value="Submit"
+    />
+
+    <div class="text-center">
+        <a href="/auth/create">Create</a>
+    </div>
+</form>
 
 <div th:replace="template :: footer"></div>
 </body>

@@ -1,0 +1,119 @@
+* {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+body{
+    background-color: #eeeeee !important;
+}
+h1 {
+    font-weight: 900;
+}
+.nav-pills {
+    min-width: 200px;
+    padding: 1em !important;
+    min-height: calc(100vh - 2.5em);
+    background-color: white;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(39, 44, 49);
+    padding: 0.5em 1em !important;
+    color: azure;
+}
+.main-header > ul {
+    display: flex;
+    gap: 1em;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.main-header > ul > li > a {
+    text-decoration: none;
+    color: azure;
+}
+.main-header > div > span:first-child {
+    font-weight: 900;
+}
+.align-items-start {
+    height: calc(100vh - 2.5em);
+}
+h1 {
+    font-size: 2em !important;
+}
+.nav-link {
+    padding: 0.5em !important;
+    text-align: start !important;
+}
+.tab-content {
+    min-width: calc(100% - 200px) !important;
+    padding: 1em !important;
+    min-height: 100% !important;
+}
+.table {
+    background-color: white !important;
+    border-radius: 3px !important;
+    overflow: hidden;
+}
+.btn {
+    padding: 0.25em 0.5em !important;
+}
+.tab-content-row {
+    background-color: white;
+}
+.tab-content .tab-content-row {
+    border: 1px solid #dee2e6;
+    padding: 1em !important;
+}
+.tab-content .tab-content-row {
+    border-radius: 5px 5px 0px 0px;
+}
+.nav-tabs {
+    border-bottom: none !important;
+}
+.nav-tabs ~ div > .tab-content-row:first-child {
+    border-radius: 0px 5px 0px 0px;
+}
+.tab-content-row + .tab-content-row {
+    border-top: none;
+    border-radius: 0px 0px 0px 0px;
+}
+.tab-content-row + .tab-content-row:last-child {
+    border-radius: 0px 0px 5px 5px;
+}
+table tr {
+    border-top: 1px solid #dee2e6;
+    height: 3em !important;
+    vertical-align: middle;
+}
+table td {
+    padding: 0 0.5em !important;
+    border-bottom: none !important;
+}
+tbody tr:nth-child(2n + 1) {
+    background-color: #eeeeee !important;
+}
+thead {
+    font-weight: 700;
+}
+.table > :not(:first-child) {
+    border-top: none !important;
+}
+#tab-1,
+#tab-2 {
+    position: absolute;
+    width: calc(100% - 200px - 2em);
+}
+form {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+}
+form > input, form > .btn {
+    padding: 0.5em 1em !important;
+}
+form > * {
+    width: 300px !important;
+}

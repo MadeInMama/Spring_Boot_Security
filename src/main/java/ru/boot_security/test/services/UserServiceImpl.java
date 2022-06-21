@@ -5,13 +5,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.boot_security.test.configs.PasswordEncoderWithDecoder;
-import ru.boot_security.test.entities.Role;
-import ru.boot_security.test.entities.Roles;
 import ru.boot_security.test.entities.User;
 import ru.boot_security.test.repositories.RoleRepository;
 import ru.boot_security.test.repositories.UserRepository;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -40,40 +37,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-        User res;
-
-        if (user.getId() == null) {
-            Role role;
-
-            if (user.getUsername().contains("admin")) {
-                role = roleRepository.findByRole(Roles.ADMIN.name());
-
-                if (role == null) {
-                    role = new Role(Roles.ADMIN);
-                    roleRepository.save(role);
-                }
-            } else {
-                role = roleRepository.findByRole(Roles.USER.name());
-
-                if (role == null) {
-                    role = new Role(Roles.USER);
-                    roleRepository.save(role);
-                }
-            }
-
-            user.setRoles(Collections.singleton(role));
-
+        if (userRepository.findByUsername(user.getUsername()) == null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-            res = user;
-        } else {
-            res = findById(user.getId());
-            
-            res.setUsername(user.getUsername());
-            res.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
         }
-
-        userRepository.save(res);
     }
 
     @Override
