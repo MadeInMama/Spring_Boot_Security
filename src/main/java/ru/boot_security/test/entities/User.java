@@ -30,7 +30,7 @@ public class User implements UserDetails {
     @Getter
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @Setter
     @Getter
     private Set<Role> roles;
