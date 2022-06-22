@@ -11,12 +11,16 @@
     <h1 th:text="${title}"></h1>
 
     <input class="form-control" placeholder="Enter username..." th:field="*{new.username}"/>
-    <input class="form-control" placeholder="Enter password..." th:field="*{new.password}" type="password"/>
+    <input class="form-control" placeholder="Enter password..." th:field="*{new.password}"
+           type="password"/>
 
     <div class="form-group d-flex align-items-center gap-3">
         <th:block th:each="role : ${roles}">
             <div class="d-flex align-items-center gap-1">
-                <input class="form-check-input" th:attr="id=${role.role}" th:field="*{new.roles}" th:value="${role.id}"
+                <input class="form-check-input"
+                       th:attr="id=${role.role}"
+                       th:field="*{new.roles}"
+                       th:value="${role.id}"
                        type="checkbox">
                 <label th:for="${role.role}" th:text="${role.role}"></label>
             </div>

@@ -29,6 +29,7 @@
             </button>
         </th:block>
     </div>
+
     <div class="tab-content">
         <th:block th:each="role, stat:${user.roles}">
             <div class="tab-pane" th:attr="id=${role.role}" th:classappend="${stat.first} ? 'show active' : 'fade'">
@@ -55,49 +56,52 @@
                     </li>
                 </ul>
 
-                <div class="fade show active" id="tab-1" th:if="${role.role} == 'ADMIN'">
+                <div class="tab-content-row-container fade show active" id="tab-1" th:if="${role.role} == 'ADMIN'">
                     <div class="tab-content-row">
                         <h2>Users</h2>
                     </div>
                     <div class="tab-content-row">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <td>ID</td>
-                                <td>Username</td>
-                                <td>Password</td>
-                                <td>Roles</td>
-                                <td>Edit</td>
-                                <td>Delete</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="item : ${users}">
-                                <td th:text="${item.id}">2</td>
-                                <td th:text="${item.username}"></td>
-                                <td th:text="${item.password}"></td>
-                                <td>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Username</td>
+                                    <td>Password</td>
+                                    <td>Roles</td>
+                                    <td>Edit</td>
+                                    <td>Delete</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item : ${users}">
+                                    <td th:text="${item.id}">2</td>
+                                    <td th:text="${item.username}"></td>
+                                    <td th:text="${item.password}"></td>
+                                    <td>
                                     <span th:each="r:${item.roles}">
                                         <span th:text="${r.role}"></span>
                                     </span>
-                                </td>
-                                <td>
-                                    <a class="btn btn-success">
-                                        Edit
-                                    </a>
-                                </td>
-                                <td>
-                                    <a class="btn btn-danger" th:href="@{/home/delete/{id}(id=${item.id})}">
-                                        Delete
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-success">
+                                            Edit
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-danger" th:href="@{/home/delete/{id}(id=${item.id})}">
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class="fade" id="tab-2" th:if="${role.role} == 'ADMIN'">
-                    <div class="tab-content-row">
+                <div class="tab-content-row-container fade" id="tab-2"
+                     th:if="${role.role} == 'ADMIN'">
+                    <div class="tab-content-row" style="border-radius: 5px 5px 0px 0px;">
                         <h2>New user</h2>
                     </div>
                     <div class="tab-content-row">
@@ -109,28 +113,30 @@
                     <h2>User</h2>
                 </div>
                 <div class="tab-content-row" th:if="${role.role} != 'ADMIN'">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <td>ID</td>
-                            <td>Username</td>
-                            <td>Password</td>
-                            <td>Roles</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td th:text="${user.id}"></td>
-                            <td th:text="${user.username}"></td>
-                            <td th:text="${user.password}"></td>
-                            <td>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Username</td>
+                                <td>Password</td>
+                                <td>Roles</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td th:text="${user.id}"></td>
+                                <td th:text="${user.username}"></td>
+                                <td th:text="${user.password}"></td>
+                                <td>
                                 <span th:each="role:${user.roles}">
                                     <span th:text="${role.role}"></span>
                                 </span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </th:block>

@@ -35,11 +35,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    @Override
     public void save(User user) {
         if (userRepository.findByUsername(user.getUsername()) == null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -52,7 +47,6 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return entityManager.createQuery("SELECT u FROM User AS u JOIN FETCH u.roles WHERE u.username=:username", User.class)

@@ -8,5 +8,15 @@
 <div th:replace="template :: header"></div>
 
 <div th:replace="template :: footer"></div>
+
+<form method="post" th:action="@{/auth/login}">
+
+</form>
+
+<input type="number"/>
+<button onclick="GetUser(0)">Get User</button>
+<button onclick="GetAllUsers()">Get All Users</button>
+<button onclick="AddUser()">Add User</button>
+
 </body>
 </html>

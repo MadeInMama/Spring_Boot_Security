@@ -7,19 +7,25 @@ body{
 }
 h1 {
     font-weight: 900;
+    font-size: 2em !important;
+}
+h2 {
+    font-weight: 700;
+    font-size: 1.75em !important;
 }
 .nav-pills {
     min-width: 200px;
     padding: 1em !important;
-    min-height: calc(100vh - 2.5em);
+    min-height: calc(100vh - 3.5em);
     background-color: white;
 }
 
 .main-header {
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     background-color: rgb(39, 44, 49);
-    padding: 0.5em 1em !important;
+    padding: 1em 2em !important;
     color: azure;
 }
 .main-header > ul {
@@ -37,12 +43,18 @@ h1 {
     font-weight: 900;
 }
 .align-items-start {
-    height: calc(100vh - 2.5em);
+    min-height: calc(100vh - 3.5em);
 }
-h1 {
-    font-size: 2em !important;
+.nav-link:not(.active):hover {
+    border-color: transparent !important;
+}
+.nav-link.active {
+    border-color-top: #dee2e6 !important;
+    border-color-right: #dee2e6 !important;
+    border-color-left: #dee2e6 !important;
 }
 .nav-link {
+    isolation: unset !important;
     padding: 0.5em !important;
     text-align: start !important;
 }
@@ -116,4 +128,12 @@ form > input, form > .btn {
 }
 form > * {
     width: 300px !important;
+}
+.table-responsive {
+    overflow-x: auto;
+    height: calc(100vh - 16.7em);
+}
+
+.tab-pane>:nth-child(2):not(.nav-tabs) {
+    margin-top: 2.65em !important;
 }
