@@ -50,8 +50,8 @@ public class RestTestController {
         return users;
     }
 
-    @PostMapping("delete/user/{id}")
-    public void deleteUser(@PathVariable long id) {
+    @PostMapping("delete/user")
+    public void deleteUser(@RequestParam("id") long id) {
         userService.deleteById(id);
     }
 

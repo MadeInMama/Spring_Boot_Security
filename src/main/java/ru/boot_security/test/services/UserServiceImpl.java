@@ -10,7 +10,6 @@ import ru.boot_security.test.repositories.RoleRepository;
 import ru.boot_security.test.repositories.UserRepository;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
