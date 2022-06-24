@@ -37,18 +37,41 @@ public class RestTestController {
 
     @GetMapping("edit/user/{id}")
     public Object findUserForEdit(@PathVariable long id) {
-        User user = userService.findById(id);
-        user.setPassword(passwordEncoder.decode(user.getPassword()));
-
-        class ObjForEdit {
-            public final String password = user.getPassword();
+        class Obj {
+            public final Long id;
+            public final String username;
+            public final String password;
+            public final Set<Role> roles;
             public final List<Role> rolesTotal = roleService.findAll();
-            public long id = user.getId();
-            public String username = user.getUsername();
-            public Set<Role> roles = user.getRoles();
+
+            public Obj(long id, String username, String password, Set<Role> roles) {
+                this.id = id;
+                this.username = username;
+                this.password = password;
+                this.roles = roles;
+            }
+
+            public Obj() {
+                this.id = null;
+                this.username = "";
+                this.password = "";
+                this.roles = new HashSet<>();
+            }
         }
 
-        return new ObjForEdit();
+        Obj obj;
+
+        if (id > 0) {
+            User user = userService.findById(id);
+
+            obj = new Obj(user.getId(), user.getUsername(),
+                    passwordEncoder.decode(user.getPassword()),
+                    user.getRoles());
+        } else {
+            obj = new Obj();
+        }
+
+        return obj;
     }
 
     @GetMapping("get/user/me")
@@ -79,8 +102,9 @@ public class RestTestController {
         userService.deleteById(id);
     }
 
-    @PostMapping("add/user")
-    public void addUser(@RequestParam("username") String username,
+    @PostMapping("save/user")
+    public void addUser(@RequestParam("id") long id,
+                        @RequestParam("username") String username,
                         @RequestParam("password") String password,
                         @RequestParam("roles[]") String[] roles) {
         Set<Role> rolesSet = new HashSet<>();
@@ -99,6 +123,6 @@ public class RestTestController {
             }
         }
 
-        userService.save(new User(username, password, rolesSet));
+        userService.save(new User(id, username, password, rolesSet));
     }
 }

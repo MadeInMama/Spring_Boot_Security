@@ -3,6 +3,7 @@ class Modal {
     static Duration = 200;
     static Container;
 
+    AnyChanged = false;
     #Id;
     get Id() {
         return this.#Id;
@@ -36,6 +37,7 @@ class Modal {
         username.setAttribute("placeholder", "Enter username...");
         username.className = "form-control";
         username.value = data.username;
+        username.onchange = () => Modal.Changed(this);
 
         let password = document.createElement("input");
         password.setAttribute("id", "password");
@@ -43,6 +45,7 @@ class Modal {
         password.setAttribute("placeholder", "Enter password...");
         password.className = "form-control";
         password.value = data.password;
+        password.onchange = () => Modal.Changed(this);
 
         let roles = document.createElement("div");
         roles.className =
@@ -64,6 +67,7 @@ class Modal {
                 data.roles.find((obj) => {
                     return obj.role == data.rolesTotal[i].role;
                 }) != null;
+            role_check.onchange = () => Modal.Changed(this);
 
             let role_lbl = document.createElement("label");
             role_lbl.setAttribute(
@@ -148,18 +152,35 @@ class Modal {
         }
     }
 
-    static Close(obj) {
-        obj.Object.classList.add("disappear");
-        setTimeout(() => {
-            Modal.Container.removeChild(obj.Object);
-            const index = Modal.Modals.indexOf(obj);
-            if (index > -1) {
-                Modal.Modals.splice(index, 1);
-            }
-        }, Modal.Duration);
+    static Close(obj, closeCheck = true) {
+        const canClose = obj.AnyChanged && closeCheck
+            ? confirm(
+                  "You made some changes. If you close it now, changes disappear!"
+              )
+            : true;
+
+        if (canClose) {
+            obj.Object.classList.add("disappear");
+            setTimeout(() => {
+                Modal.Container.removeChild(obj.Object);
+                const index = Modal.Modals.indexOf(obj);
+                if (index > -1) {
+                    Modal.Modals.splice(index, 1);
+                }
+            }, Modal.Duration);
+        }
+    }
+
+    static Changed(obj) {
+        obj.AnyChanged = true;
     }
 
     static Save(obj) {
+        if(!obj.AnyChanged) {
+            Modal.Close(obj);
+            return;
+        }
+
         let roles = [];
 
         obj.Object.querySelectorAll(".form-check-input").forEach(
@@ -170,12 +191,14 @@ class Modal {
             }
         );
 
-        $.post("/rest/save/user", {
+        SaveUser({
             id: obj.Id,
             username: obj.Object.querySelector("#username").value,
             password: obj.Object.querySelector("#password").value,
             roles: roles,
-            _csrf: GetToken(),
-        }).done(() => Modal.Close(obj));
+        }, () => {
+            Modal.Close(obj, false);
+            Init();
+        });
     }
 }

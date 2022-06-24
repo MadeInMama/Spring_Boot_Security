@@ -16,3 +16,12 @@ function DeleteUser(id, onComplete) {
         _csrf: GetToken(),
     }).done(onComplete);
 }
+function SaveUser(params, onComplete) {
+    $.post("/rest/save/user", {
+        id: params.id,
+        username: params.username,
+        password: params.password,
+        roles: params.roles,
+        _csrf: GetToken(),
+    }).done(onComplete);
+}

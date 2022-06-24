@@ -1,4 +1,8 @@
 window.onload = () => {
+    Init();
+};
+
+function Init() {
     GetAllUsers((data) => {
         InitTable(data, document.querySelector("#table1"), [
             new Button(
@@ -20,10 +24,14 @@ window.onload = () => {
     GetMe((data) =>
         InitTable(data, document.querySelector("#table2"))
     );
-};
+}
 
 function Edit(id) {
     Modal.Open(id);
+}
+
+function Delete(id) {
+    DeleteUser(id, Init);
 }
 
 function ClearChildren(element) {

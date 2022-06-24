@@ -10,6 +10,7 @@ import ru.boot_security.test.repositories.RoleRepository;
 import ru.boot_security.test.repositories.UserRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,7 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-        if (userRepository.findByUsername(user.getUsername()) == null) {
+        User check = userRepository.findByUsername(user.getUsername());
+
+        if (check == null || Objects.equals(check.getId(), user.getId())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         }
