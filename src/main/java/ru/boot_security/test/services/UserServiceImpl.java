@@ -9,13 +9,10 @@ import ru.boot_security.test.entities.User;
 import ru.boot_security.test.repositories.RoleRepository;
 import ru.boot_security.test.repositories.UserRepository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    EntityManager entityManager;
     @Autowired
     private PasswordEncoderWithDecoder passwordEncoder;
     @Autowired
@@ -48,7 +45,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return entityManager.createQuery("SELECT u FROM User AS u JOIN FETCH u.roles WHERE u.username=:username", User.class)
-                .setParameter("username", username).getSingleResult();
+        return userRepository.loadUserByUsername(username);
     }
 }

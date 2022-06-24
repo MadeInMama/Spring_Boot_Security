@@ -16,7 +16,7 @@
                 data-bs-toggle="pill"
                 type="button"
         >
-            ADMIN
+            Admin
         </button>
         <button
                 aria-selected="true"
@@ -25,13 +25,13 @@
                 data-bs-toggle="pill"
                 type="button"
         >
-            USER
+            User
         </button>
     </div>
 
     <div class="tab-content">
         <div class="tab-pane show active" id="ADMIN">
-            <h1>ADMIN</h1>
+            <h1>Admin panel</h1>
 
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -42,7 +42,7 @@
                             data-bs-toggle="pill"
                             href="#"
                     >
-                        Users
+                        Users table
                     </a>
                 </li>
                 <li class="nav-item">
@@ -53,7 +53,7 @@
                             data-bs-toggle="pill"
                             href="#"
                     >
-                        Add New
+                        New User
                     </a>
                 </li>
             </ul>
@@ -63,7 +63,7 @@
                     id="tab-1"
             >
                 <div class="tab-content-row">
-                    <h2>Users</h2>
+                    <h2>All Users</h2>
                 </div>
                 <div class="tab-content-row">
                     <div class="table-responsive">
@@ -76,16 +76,16 @@
                         class="tab-content-row"
                         style="border-radius: 5px 5px 0px 0px"
                 >
-                    <h2>New user</h2>
+                    <h2>Add new user</h2>
                 </div>
                 <div class="tab-content-row">Under maintains...</div>
             </div>
         </div>
 
         <div class="tab-pane fade" id="USER">
-            <h1>USER</h1>
+            <h1>User information-page</h1>
             <div class="tab-content-row">
-                <h2>Users</h2>
+                <h2>About user</h2>
             </div>
             <div class="tab-content-row">
                 <div class="table-responsive">
@@ -97,7 +97,5 @@
 </div>
 
 <div th:replace="template :: footer"></div>
-
-<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

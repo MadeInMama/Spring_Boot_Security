@@ -4,9 +4,9 @@ public enum Roles {
     ADMIN,
     USER;
 
-    public static Roles createFromInt(int i) {
+    public static Roles createFromString(String name) {
         for (Roles role : Roles.values()) {
-            if (role.ordinal() == i) {
+            if (role.name().equals(name)) {
                 return role;
             }
         }

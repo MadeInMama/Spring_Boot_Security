@@ -35,6 +35,30 @@ public class RestTestController {
         return user;
     }
 
+    @GetMapping("edit/user/{id}")
+    public Object findUserForEdit(@PathVariable long id) {
+        User user = userService.findById(id);
+        user.setPassword(passwordEncoder.decode(user.getPassword()));
+
+        class ObjForEdit {
+            public final String password = user.getPassword();
+            public final List<Role> rolesTotal = roleService.findAll();
+            public long id = user.getId();
+            public String username = user.getUsername();
+            public Set<Role> roles = user.getRoles();
+        }
+
+        return new ObjForEdit();
+    }
+
+    @GetMapping("get/user/me")
+    public User findMe(Principal principal) {
+        User user = userService.findById(((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId());
+        user.setPassword(passwordEncoder.decode(user.getPassword()));
+
+        return user;
+    }
+
     @GetMapping("get/users")
     public List<User> findUsers(Principal principal) {
         List<User> users = userService.findAll();
@@ -58,11 +82,11 @@ public class RestTestController {
     @PostMapping("add/user")
     public void addUser(@RequestParam("username") String username,
                         @RequestParam("password") String password,
-                        @RequestParam("roles[]") int[] roles) {
+                        @RequestParam("roles[]") String[] roles) {
         Set<Role> rolesSet = new HashSet<>();
 
-        for (int role : roles) {
-            Roles r = Roles.createFromInt(role);
+        for (String role : roles) {
+            Roles r = Roles.createFromString(role);
 
             if (r != null) {
                 Role item = roleService.findByRole(r.name());

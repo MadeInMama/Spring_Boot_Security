@@ -2,8 +2,9 @@
     margin: 0 !important;
     padding: 0 !important;
 }
-body{
+body {
     background-color: #eeeeee !important;
+    overflow: hidden;
 }
 h1 {
     font-weight: 900;
@@ -15,9 +16,11 @@ h2 {
 }
 .nav-pills {
     min-width: 200px;
+    flex-wrap: nowrap;
     padding: 1em !important;
-    min-height: calc(100vh - 3.5em);
+    height: calc(100vh - 3.5em);
     background-color: white;
+    overflow-y: auto;
 }
 
 .main-header {
@@ -70,6 +73,8 @@ h2 {
 }
 .btn {
     padding: 0.25em 0.5em !important;
+    color: white !important;
+    text-transform: capitalize;
 }
 .tab-content-row {
     background-color: white;
@@ -109,6 +114,12 @@ tbody tr:nth-child(2n + 1) {
 thead {
     font-weight: 700;
 }
+thead > tr {
+    text-transform: capitalize;
+}
+thead > tr > td:first-child {
+    text-transform: uppercase;
+}
 .table > :not(:first-child) {
     border-top: none !important;
 }
@@ -118,12 +129,13 @@ thead {
     width: calc(100% - 200px - 2em);
 }
 form {
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5em;
 }
-form > input, form > .btn {
+input:not([type="checkbox"]),
+.btn {
     padding: 0.5em 1em !important;
 }
 form > * {
@@ -131,9 +143,8 @@ form > * {
 }
 .table-responsive {
     overflow-x: auto;
-    height: calc(100vh - 16.7em);
+    height: calc(100vh - 16.8em);
 }
-
-.tab-pane>:nth-child(2):not(.nav-tabs) {
-    margin-top: 2.65em !important;
+.tab-pane > :nth-child(2):not(.nav-tabs) {
+    margin-top: 2.64em !important;
 }
