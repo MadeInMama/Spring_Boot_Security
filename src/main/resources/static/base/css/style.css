@@ -98,8 +98,15 @@ h2 {
 .tab-content-row + .tab-content-row:last-child {
     border-radius: 0px 0px 5px 5px;
 }
-.tat-content-row:last-child {
-    height: calc(100vh - 16.8em);
+.tab-content-row.add-new > * {
+    margin: 1em auto !important;
+    width: 300px;
+}
+.tab-content-row.add-new > *:first-child {
+    margin-top: 0 !important;
+}
+.tab-content-row:last-child {
+    height: calc(100vh - 14.8em);
 }
 table tr {
     border-top: 1px solid #dee2e6;
@@ -155,4 +162,9 @@ form > * {
 }
 .show {
     display: block;
+}
+
+.table > thead > tr > td {
+    position: sticky;
+    top:0;
 }

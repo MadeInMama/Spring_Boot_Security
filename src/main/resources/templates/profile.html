@@ -11,16 +11,17 @@
     <div aria-orientation="vertical" class="nav flex-column nav-pills">
         <button
                 aria-selected="true"
-                class="nav-link active"
+                class="nav-link"
                 data-bs-target="#ADMIN"
                 data-bs-toggle="pill"
+                sec:authorize="hasAuthority('ADMIN')"
                 type="button"
         >
             Admin
         </button>
         <button
                 aria-selected="true"
-                class="nav-link"
+                class="nav-link active"
                 data-bs-target="#USER"
                 data-bs-toggle="pill"
                 type="button"
@@ -30,7 +31,7 @@
     </div>
 
     <div class="tab-content">
-        <div class="tab-pane show active" id="ADMIN">
+        <div class="tab-pane fade" id="ADMIN" sec:authorize="hasAuthority('ADMIN')">
             <h1>Admin panel</h1>
 
             <ul class="nav nav-tabs">
@@ -78,7 +79,7 @@
                 >
                     <h2>Add new user</h2>
                 </div>
-                <div class="tab-content-row">
+                <div class="tab-content-row add-new">
                     <input
                             class="form-control"
                             id="username"
@@ -108,13 +109,13 @@
                         </div>
                     </div>
                     <div class="modal-footer gap-2">
-                        <button class="btn btn-primary">Save Changes</button>
+                        <button class="btn btn-primary">Add new user</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="tab-pane fade" id="USER">
+        <div class="tab-pane show active" id="USER">
             <h1>User information-page</h1>
             <div class="tab-content-row">
                 <h2>About user</h2>
@@ -129,5 +130,12 @@
 </div>
 
 <div th:replace="template :: footer"></div>
+
+<script sec:authorize="hasAuthority('ADMIN')" th:src="@{/modal/js/modal.js}"></script>
+<script th:src="@{/base/js/button.js}"></script>
+<script th:src="@{/base/js/token.js}"></script>
+<script th:src="@{/base/js/ajax.js}"></script>
+<script th:src="@{/base/js/script.js}"></script>
+
 </body>
 </html>

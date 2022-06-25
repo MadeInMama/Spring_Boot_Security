@@ -32,9 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAuthority(Roles.ADMIN.name())
                 .antMatchers("/user/**").hasAnyAuthority(Roles.ADMIN.name(), Roles.USER.name())
                 .antMatchers("/css/**").permitAll()
-                .antMatchers("/js/**").permitAll()
-                
-                .antMatchers("/rest/**").permitAll()
+                .antMatchers("/js/**").authenticated()
+
+                .antMatchers("/rest/**").authenticated()
 
                 .and()
                 .formLogin()

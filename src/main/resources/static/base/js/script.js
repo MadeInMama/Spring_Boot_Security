@@ -1,5 +1,37 @@
 window.onload = () => {
     Init();
+
+    let add_new = document.querySelector(".add-new .btn");
+    if(add_new != null) {
+        add_new.onclick = () => {
+            const usernameObj = document.querySelector(".add-new #username");
+            const passwordObj = document.querySelector(".add-new #password");
+            const rolesObj = document.querySelectorAll(".add-new .form-check-input");
+
+            let roles = [];
+
+            rolesObj.forEach(
+                (element) => {
+                    if (element.checked) {
+                        roles.push(element.value);
+                    }
+                }
+            );
+
+            SaveUser({
+                id: 0,
+                username: usernameObj.value,
+                password: passwordObj.value,
+                roles: roles
+            }, () => {
+                Init();
+                usernameObj.value = "";
+                passwordObj.value = "";
+                rolesObj.forEach(element => element.checked = false);
+                alert("User added successfully!");
+            });
+        }
+    }
 };
 
 function Init() {
@@ -41,6 +73,10 @@ function ClearChildren(element) {
 }
 
 function InitTable(data, table_obj, addRows) {
+    if(table_obj == null) {
+        return;
+    }
+
     const table_head = document.createElement("thead");
     const table_body = document.createElement("tbody");
 
