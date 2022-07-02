@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import ru.boot_security.test.configs.PasswordEncoderWithDecoder;
+import ru.boot_security.test.entities.EditUserDto;
 import ru.boot_security.test.entities.Role;
 import ru.boot_security.test.entities.Roles;
 import ru.boot_security.test.entities.User;
@@ -15,7 +16,6 @@ import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rest/")
@@ -37,41 +37,19 @@ public class RestTestController {
 
     @GetMapping("edit/user/{id}")
     public Object findUserForEdit(@PathVariable long id) {
-        class Obj {
-            public final Long id;
-            public final String username;
-            public final String password;
-            public final Set<Role> roles;
-            public final List<Role> rolesTotal = roleService.findAll();
-
-            public Obj(long id, String username, String password, Set<Role> roles) {
-                this.id = id;
-                this.username = username;
-                this.password = password;
-                this.roles = roles;
-            }
-
-            public Obj() {
-                this.id = null;
-                this.username = "";
-                this.password = "";
-                this.roles = new HashSet<>();
-            }
-        }
-
-        Obj obj;
+        EditUserDto eud;
 
         if (id > 0) {
             User user = userService.findById(id);
 
-            obj = new Obj(user.getId(), user.getUsername(),
+            eud = new EditUserDto(user.getId(), user.getUsername(),
                     passwordEncoder.decode(user.getPassword()),
-                    user.getRoles());
+                    user.getRoles(), roleService.findAll());
         } else {
-            obj = new Obj();
+            eud = new EditUserDto(roleService.findAll());
         }
 
-        return obj;
+        return eud;
     }
 
     @GetMapping("get/user/me")
@@ -84,12 +62,14 @@ public class RestTestController {
 
     @GetMapping("get/users")
     public List<User> findUsers(Principal principal) {
-        List<User> users = userService.findAll();
+        List<User> users;
         User user;
 
         if (principal != null) {
             user = userService.findById(((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId());
-            users = users.stream().filter(u -> !u.getId().equals(user.getId())).collect(Collectors.toList());
+            users = userService.findAllExcept(user.getId());
+        } else {
+            users = userService.findAll();
         }
 
         users.forEach(r -> r.setPassword(passwordEncoder.decode(r.getPassword())));

@@ -10,14 +10,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.boot_security.test.entities.Roles;
-import ru.boot_security.test.services.UserService;
+import ru.boot_security.test.services.UserDetailService;
 
 @Configuration
 @EnableWebSecurity
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException"})
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserService userService;
+    private UserDetailService userDetailService;
 
     @Bean
     public static PasswordEncoderWithDecoder passwordEncoderWithDecoder() {
@@ -53,6 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoderWithDecoder());
+        auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoderWithDecoder());
     }
 }

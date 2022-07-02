@@ -12,7 +12,6 @@ import ru.boot_security.test.services.UserService;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/home/")
@@ -27,7 +26,7 @@ public class HomeController {
         User user = userService.findById(((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getId());
         user.setPassword(passwordEncoder.decode(user.getPassword()));
 
-        List<User> users = userService.findAll().stream().filter(u -> !u.getId().equals(user.getId())).collect(Collectors.toList());
+        List<User> users = userService.findAllExcept(user.getId());
         users.forEach(r -> r.setPassword(passwordEncoder.decode(r.getPassword())));
 
         model.addAttribute("title", "Profile");

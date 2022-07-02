@@ -1,8 +1,6 @@
 package ru.boot_security.test.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.boot_security.test.configs.PasswordEncoderWithDecoder;
 import ru.boot_security.test.entities.User;
@@ -27,6 +25,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findAllExcept(long id) {
+        return userRepository.findAllExcept(id);
+    }
+
+    @Override
     public User findById(long id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -44,10 +47,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(long id) {
         userRepository.deleteById(id);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.loadUserByUsername(username);
     }
 }
